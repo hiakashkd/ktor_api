@@ -10,7 +10,7 @@ import kotlinx.serialization.Serializable
     val email : String,
     val role : String,
     val address : String,
-    val pincode : String,
+    val pinCode : String,
     val cityId : String
 ){
     fun validate(): ValidationResult {
@@ -28,7 +28,7 @@ import kotlinx.serialization.Serializable
             reasons.add("Invalid address!")
         if (role.isEmpty())
             reasons.add("Invalid role!")
-        if (pincode.length != 6)
+        if (pinCode.length != 6)
             reasons.add("Enter 6 digits pin code!")
 
         return if (reasons.isNotEmpty())

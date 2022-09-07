@@ -4,7 +4,7 @@ import org.ktorm.schema.Table
 import org.ktorm.schema.int
 import org.ktorm.schema.varchar
 
-object LogTable : Table<Nothing>(DBTables.LOG) {
+object LogTable : Table<Nothing>(DBConstant.TABLE_LOG) {
     val id = int("id").primaryKey()
     val value = varchar("value")
     val apiName = varchar("api_name")

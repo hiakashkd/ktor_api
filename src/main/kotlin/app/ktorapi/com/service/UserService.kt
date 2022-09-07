@@ -1,20 +1,11 @@
 package app.ktorapi.com.service
 
 import app.ktorapi.com.data.repository.UserRepository
-import app.ktorapi.com.db.UserTable
-import app.ktorapi.com.db.db
-import app.ktorapi.com.db.users
 import app.ktorapi.com.model.user.*
 import app.ktorapi.com.user
 import app.ktorapi.com.uti.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*
-import org.ktorm.entity.Entity
-import org.ktorm.entity.all
-import org.ktorm.entity.find
-import org.ktorm.schema.Table
-import org.ktorm.schema.int
-import org.ktorm.schema.varchar
 import java.util.*
 
 
@@ -23,24 +14,23 @@ class UserService(private val repository: UserRepository) {
 
     suspend fun login(call: ApplicationCall) {
 
-
         val loginInput = call.receive<LoginInput>()
-        val hashPassword = AuthenticateService.hash(loginInput.password)
+        val hashPassword = HashPassword(loginInput.password)
 
         val user: User? = repository.fetchUserByMobileAndPassword(loginInput.mobile, hashPassword)
         if (user == null) {
             call.failureRespond(message = "Invalid credentials! user not found")
             return
         }
-        val (token, issuedDate) = AuthenticateService.generateToken(user)
-        repository.saveLastLoginTime(user.id, issuedDate)
+        val (token, issuedDate) = JWTService.generateToken(user)
+        repository.saveLastLoginTime(user.id ?:0, issuedDate)
         call.dataRespond(data = LoginRespond(user, token))
     }
 
 
     suspend fun logout(call: ApplicationCall) {
         val user = call.user!!
-        AuthenticateService.generateToken(user)
+        JWTService.generateToken(user)
         call.successRespond(message = "Logout successfully!")
     }
 
@@ -67,7 +57,7 @@ class UserService(private val repository: UserRepository) {
     }
 
 
-    suspend fun fetchUsers(call: ApplicationCall) = call.withHandler {
+    suspend fun fetchUsers(call: ApplicationCall)  {
 
         val result = repository.fetchUsers()
         val message = if (result.isEmpty())
@@ -81,6 +71,9 @@ class UserService(private val repository: UserRepository) {
         val lastLogin = repository.fetchLastLoginTime(userId)
         if (lastLogin == null) return false
         else {
+
+            println("login date 1 : ${lastLogin.toDate()}")
+            println("login date 2 : $issuedAt")
             val mLastLoginDate = lastLogin.toDate()
             if (mLastLoginDate.after(issuedAt)) return false
             return true

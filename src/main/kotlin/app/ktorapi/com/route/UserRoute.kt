@@ -11,9 +11,8 @@ fun Application.userRoutes() {
     routing {
         post("/login") { userService.login(call) }
         post("/register") { userService.register(call) }
-        get("/fetch-users") { userService.fetchUsers(call) }
-
         authenticate {
+            get("/fetch-users") { userService.fetchUsers(call) }
             get("/logout") { userService.logout(call) }
         }
     }

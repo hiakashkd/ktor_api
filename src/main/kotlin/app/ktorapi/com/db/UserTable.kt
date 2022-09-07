@@ -2,78 +2,48 @@ package app.ktorapi.com.db
 
 import app.ktorapi.com.model.user.User
 import app.ktorapi.com.model.user.UserInput
-import app.ktorapi.com.service.AuthenticateService
-import io.ktor.server.auth.*
-import kotlinx.serialization.Serializable
 import org.ktorm.dsl.AssignmentsBuilder
 import org.ktorm.dsl.QueryRowSet
-import org.ktorm.entity.Entity
-import org.ktorm.schema.Table
-import org.ktorm.schema.datetime
-import org.ktorm.schema.int
-import org.ktorm.schema.varchar
-import java.time.LocalDateTime
+import org.ktorm.schema.*
 
-interface UserEntity : Entity<UserEntity> {
-    companion object : Entity.Factory<UserEntity>()
+object UserTable : BaseTable<User>(DBConstant.TABLE_USER) {
+    val id = int("id")
+    val name = varchar("name")
+    val mobile = varchar("mobile")
+    val password = varchar("password")
+    val email = varchar("email")
+    val role = varchar("role")
+    val address = varchar("address")
+    val pinCode = varchar("pincode")
+    val cityId = varchar("cityId")
+    val lastLoginTime = datetime("last_login")
+    val createdAt = varchar("created_at")
+    val updatedAt = varchar("updated_at")
 
-    var id: Int
-    var name: String
-    var mobile: String
-    var password: String
-    var email: String
-    var role: String
-    var address: String
-    var pinCode: String
-    var cityId: String
-    var lastLoginTime: LocalDateTime
-    var createdAt: String
-    var updatedAt: String
-}
+    override fun doCreateEntity(row: QueryRowSet, withReferences: Boolean) = User(
+        id = row[this.id] ?: 0,
+        name = row[this.name],
+        email = row[this.email],
+        mobile = row[this.mobile],
+        password = row[this.password],
+        role = row[this.role],
+        address = row[this.address],
+        pinCode = row[this.pinCode],
+        cityId = row[this.cityId],
+        lastLoginTime = row[this.lastLoginTime].toString(),
+        createdAt = row[this.createdAt],
+        updatedAt = row[this.updatedAt],
+    )
 
-
-object UserTable : Table<UserEntity>(DBTables.USER) {
-    val id = int("id").primaryKey().bindTo { it.id }
-    val name = varchar("name").bindTo { it.name }
-    val mobile = varchar("mobile").bindTo { it.mobile }
-    val password = varchar("password").bindTo { it.password }
-    val email = varchar("email").bindTo { it.email }
-    val role = varchar("role").bindTo { it.role }
-    val address = varchar("address").bindTo { it.address }
-    val pinCode = varchar("pincode").bindTo { it.pinCode }
-    val cityId = varchar("cityId").bindTo { it.cityId }
-    val lastLoginTime = datetime("last_login").bindTo { it.lastLoginTime }
-    val createdAt = varchar("created_at").bindTo { it.createdAt }
-    val updatedAt = varchar("updated_at").bindTo { it.updatedAt }
-
-
-    fun toUser(queryRowSet: QueryRowSet): User {
-        return User(
-            id = queryRowSet[id] ?: 0,
-            name = queryRowSet[name].orEmpty(),
-            mobile = queryRowSet[mobile].orEmpty(),
-            password = queryRowSet[password].orEmpty(),
-            email = queryRowSet[email].orEmpty(),
-            role = queryRowSet[role].orEmpty(),
-            address = queryRowSet[address].orEmpty(),
-            pinCode = queryRowSet[pinCode].orEmpty(),
-            lastLogin = queryRowSet[lastLoginTime].toString(),
-            createdAt = queryRowSet[createdAt].toString(),
-            updatedAt = queryRowSet[updatedAt].toString()
-        )
-    }
 
     fun insert(builder: AssignmentsBuilder, userInput: UserInput) {
-        val hashPassword = AuthenticateService.hash(userInput.password)
-        builder.run {
-            set(name, userInput.name)
-            set(role, userInput.role)
-            set(address, userInput.address)
-            set(mobile, userInput.mobile)
-            set(password, hashPassword)
-            set(email, userInput.email)
-            set(pinCode, userInput.pincode)
-            set(cityId, userInput.cityId)
-        }
+        builder.set(name, userInput.name)
+        builder.set(mobile, userInput.mobile)
+        builder.set(password, userInput.password)
+        builder.set(email, userInput.email)
+        builder.set(role, userInput.role)
+        builder.set(address, userInput.address)
+        builder.set(pinCode, userInput.pinCode)
     }
+
 }
