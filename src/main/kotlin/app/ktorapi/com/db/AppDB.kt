@@ -5,6 +5,8 @@ import org.ktorm.entity.sequenceOf
 
 
 val Database.users get() = this.sequenceOf(UserTable)
+val Database.students get() = this.sequenceOf(StudentTable)
+val Database.addresses get() = this.sequenceOf(AddressTable)
 
 object AppDB {
     lateinit var instance: Database
@@ -17,7 +19,7 @@ object AppDB {
 
     private fun init(): Database {
         return Database.connect(
-            url = "jdbc:mysql://localhost:3306/testdb",
+            url = "jdbc:mysql://localhost:3306/school_management",
             driver = "com.mysql.jdbc.Driver",
             user = "root",
             password = "Akash@123"

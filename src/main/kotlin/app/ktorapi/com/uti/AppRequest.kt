@@ -39,3 +39,11 @@ suspend fun saveCallLog(call: ApplicationCall) {
     } catch (_: Exception) {
     }
 }
+
+
+suspend fun a (call :ApplicationCall){
+
+    call.withHandler(saveLog = true){
+
+    }
+}

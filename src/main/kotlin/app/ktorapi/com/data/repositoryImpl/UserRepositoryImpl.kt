@@ -3,9 +3,8 @@ package app.ktorapi.com.data.repositoryImpl
 import app.ktorapi.com.data.repository.UserRepository
 import app.ktorapi.com.db.UserTable
 import app.ktorapi.com.db.db
-import app.ktorapi.com.db.users
-import app.ktorapi.com.model.user.User
-import app.ktorapi.com.model.user.UserInput
+import app.ktorapi.com.model.User
+import app.ktorapi.com.model.input.UserInput
 import app.ktorapi.com.uti.toLocalDate
 import org.ktorm.dsl.*
 import java.time.LocalDateTime

@@ -1,7 +1,10 @@
 package app.ktorapi.com.service
 
 import app.ktorapi.com.data.repository.UserRepository
-import app.ktorapi.com.model.user.*
+import app.ktorapi.com.model.User
+import app.ktorapi.com.model.input.LoginInput
+import app.ktorapi.com.model.input.UserInput
+import app.ktorapi.com.model.respond.LoginRespond
 import app.ktorapi.com.user
 import app.ktorapi.com.uti.*
 import io.ktor.server.application.*

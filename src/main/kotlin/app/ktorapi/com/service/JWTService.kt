@@ -1,6 +1,6 @@
 package app.ktorapi.com.service
 
-import app.ktorapi.com.model.user.User
+import app.ktorapi.com.model.User
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
 import kotlinx.serialization.encodeToString

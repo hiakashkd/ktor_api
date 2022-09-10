@@ -1,7 +1,7 @@
 package app.ktorapi.com.db
 
-import app.ktorapi.com.model.user.User
-import app.ktorapi.com.model.user.UserInput
+import app.ktorapi.com.model.User
+import app.ktorapi.com.model.input.UserInput
 import org.ktorm.dsl.AssignmentsBuilder
 import org.ktorm.dsl.QueryRowSet
 import org.ktorm.schema.*

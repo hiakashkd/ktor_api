@@ -1,6 +1,6 @@
 package app.ktorapi.com.config
 
-import app.ktorapi.com.model.user.User
+import app.ktorapi.com.model.User
 import app.ktorapi.com.service.JWTService
 import app.ktorapi.com.service.UserService
 import io.ktor.server.application.*

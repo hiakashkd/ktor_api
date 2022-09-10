@@ -1,4 +1,4 @@
-package app.ktorapi.com.model.user
+package app.ktorapi.com.model.input
 
 import kotlinx.serialization.Serializable
 

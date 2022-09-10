@@ -1,4 +1,4 @@
-package app.ktorapi.com.model.user
+package app.ktorapi.com.model.input
 
 import io.ktor.server.plugins.requestvalidation.*
 import kotlinx.serialization.Serializable

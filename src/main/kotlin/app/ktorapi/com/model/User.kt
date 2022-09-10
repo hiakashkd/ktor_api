@@ -1,4 +1,4 @@
-package app.ktorapi.com.model.user
+package app.ktorapi.com.model
 
 import io.ktor.server.auth.*
 import kotlinx.serialization.Serializable
